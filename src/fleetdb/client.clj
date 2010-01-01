@@ -14,7 +14,7 @@
   (let [#^BufferedWriter writer (:writer client)
         #^BufferedReader reader (:reader client)]
     (.write writer #^String (json/generate-string q))
-    (.write writer "\n")
+    (.write writer "\r\n")
     (.flush writer)
     (if-let [in-line (.readLine reader)]
       (let [[status result] (json/parse-string in-line)]
