@@ -2,6 +2,12 @@
 
 A Clojure client library for FleetDB.
 
+
+## Installation
+
+`fleetdb-client` is available via [Clojars](http://clojars.org); see the [project page](http://clojars.org/fleetdb-client) for instructions on installing with Leiningen or Maven.
+
+
 ## Usage
 
 Usage of the library is simple:
@@ -24,36 +30,7 @@ The client will raise an exception in the case of an error:
 
     => (query client ["bogus"])
     java.lang.Exception: Malformed query: unrecognized query type '"bogus"'
-    
 
-## Setup
-
-If you are using [Leiningen](http//github.com/technomancy/leiningen), add `fleetdb-client` to your list of dependencies:
-
-    :dependencies [[fleetdb-client "0.1.0-SNAPSHOT"] ...]
-
-Then Leinegin will pull in the necessary jars when you run:
-    
-    $ lein deps
-
-If you are using Maven, add the following to your configuration file:
-
-    <repository>
-      <id>clojars.org</id>
-      <url>http://clojars.org/repo</url>
-    </repository>
-   
-    <dependency>
-      <groupId>fleetdb-client</groupId>
-      <artifactId>fleetdb-client</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
-    </dependency>
-
-If you are managing your dependencies in some other way, the necessary jars are:
-
- * `fleetdb-client.jar`
- * [`clj-json.jar`](http://github.com/mmcgrana/clj-json)
- * [`jackson-core-asl-1.4.0.jar`](http://jackson.codehaus.org/)
 
 ## License
 
