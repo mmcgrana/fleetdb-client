@@ -5,6 +5,8 @@ A Clojure client library for FleetDB.
 
 ## Installation
 
+First, download and start FleetDB as described in the [FleetDB getting started guide](http://fleetdb.org/docs/getting_started.html).
+
 `fleetdb-client` is available via [Clojars](http://clojars.org); see the [project page](http://clojars.org/fleetdb-client) for instructions on installing with Leiningen or Maven.
 
 
