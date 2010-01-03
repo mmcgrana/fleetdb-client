@@ -28,9 +28,13 @@ Keywords can be used in queries, as they are converted to strings before being s
     => (query client [:select :accounts {:where [:= :id 2]}])
     [{"id" 2 "owner" "Alice" "credits" 150}]
 
+The client can also be used as a function that executes the given query:
+
+    => (client [:ping])
+
 The client will raise an exception in the case of an error:
 
-    => (query client ["bogus"])
+    => (client ["bogus"])
     java.lang.Exception: Malformed query: unrecognized query type '"bogus"'
 
 You can optionally specify a host and port other than the default `"127.0.0.1"` and `3400`:
