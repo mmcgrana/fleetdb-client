@@ -3,7 +3,7 @@
   (:use (clj-unit core)))
 
 (defmacro with-client [name & body]
-  `(let [~name (client/connect "127.0.0.1" 3400)]
+  `(let [~name (client/connect)]
      (try
        (client/query ~name ["delete" "elems"])
        ~@body
@@ -25,3 +25,8 @@
           r2 (client/query client ["select" "elems"])]
       (assert= r1 1)
       (assert= r2 [{"id" 1}]))))
+
+(deftest "nondefault options"
+  (let [c (client/connect {:host "localhost" :port 3400})]
+    (assert= "localhost" (:host c))
+    (client/close c)))

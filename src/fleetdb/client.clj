@@ -4,11 +4,15 @@
            (java.io  OutputStreamWriter BufferedWriter
                      InputStreamReader BufferedReader)))
 
-(defn connect [#^String host #^Integer port]
-  (let [socket (Socket. host port)]
+(defn connect [& [options]]
+  (let [host   (get options :host "127.0.0.1")
+        port   (get options :port 3400)
+        socket (Socket. host port)]
     {:writer (BufferedWriter. (OutputStreamWriter. (.getOutputStream  socket)))
      :reader (BufferedReader. (InputStreamReader.  (.getInputStream socket)))
-     :socket socket}))
+     :socket socket
+     :host   host
+     :port   port}))
 
 (defn query [client q]
   (let [#^BufferedWriter writer (:writer client)

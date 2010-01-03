@@ -15,7 +15,7 @@ First, download and start FleetDB as described in the [FleetDB getting started g
 Usage of the library is simple:
  
     => (use 'fleetdb.client)
-    => (def client (connect "127.0.0.1" 3400))
+    => (def client (connect))
     
     => (query client ["ping"])
     "pong"
@@ -33,6 +33,9 @@ The client will raise an exception in the case of an error:
     => (query client ["bogus"])
     java.lang.Exception: Malformed query: unrecognized query type '"bogus"'
 
+You can optionally specify a host and port other than the default `"127.0.0.1"` and `3400`:
+
+   (def client (connect {:host "68.127.150.103" :port 3401}))
 
 ## License
 
