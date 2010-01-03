@@ -39,7 +39,7 @@ The client will raise an exception in the case of an error:
 
 You can optionally specify a host and port other than the default `"127.0.0.1"` and `3400`:
 
-   (def client (connect {:host "68.127.150.103" :port 3401}))
+    (def client (connect {:host "68.127.150.103" :port 3401}))
 
 ## License
 
