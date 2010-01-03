@@ -19,7 +19,7 @@
 (defn connect [& [options]]
   (let [host   (get options :host "127.0.0.1")
         port   (get options :port 3400)
-        socket (Socket. host port)
+        socket (Socket. #^String host #^Integer port)
         writer (BufferedWriter. (OutputStreamWriter. (.getOutputStream  socket)))
         reader (BufferedReader. (InputStreamReader.  (.getInputStream   socket)))
         attrs  {:writer writer :reader reader :socket socket
