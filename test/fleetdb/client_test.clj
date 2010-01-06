@@ -30,6 +30,19 @@
       (assert= r1 1)
       (assert= r2 [{"id" 1}]))))
 
+(deftest "auth success"
+  (let [client (client/connect {:port 3401 :password "pass"})]
+    (assert= "pong" (client ["ping"]))))
+
+(deftest "auth ommission"
+  (let [client (client/connect {:port 3401})]
+    (assert-throws #"auth needed"
+      (client ["ping"]))))
+
+(deftest "auth failure"
+  (assert-throws #"auth rejected"
+    (client/connect {:port 3401 :password "wrong"})))
+
 (deftest "client/query"
   (with-client client
     (assert= "pong" (client/query client ["ping"]))))

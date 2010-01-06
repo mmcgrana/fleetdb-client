@@ -17,13 +17,16 @@
       (throw (Exception. "No response from server."))))
 
 (defn connect [& [options]]
-  (let [host   (get options :host "127.0.0.1")
-        port   (get options :port 3400)
-        socket (Socket. #^String host #^Integer port)
-        writer (BufferedWriter. (OutputStreamWriter. (.getOutputStream  socket)))
-        reader (BufferedReader. (InputStreamReader.  (.getInputStream   socket)))
-        attrs  {:writer writer :reader reader :socket socket
-                :host host :port port}]
+  (let [host     (get options :host "127.0.0.1")
+        port     (get options :port 3400)
+        password (get options :password)
+        socket   (Socket. #^String host #^Integer port)
+        writer   (BufferedWriter. (OutputStreamWriter. (.getOutputStream  socket)))
+        reader   (BufferedReader. (InputStreamReader.  (.getInputStream   socket)))
+        attrs    {:writer writer :reader reader :socket socket
+                  :host host :port port :password password}]
+    (when password
+      (doquery writer reader ["auth" password]))
     (proxy [IFn ILookup] []
       (invoke [q] (doquery writer reader q))
       (valAt  [k] (attrs k)))))
