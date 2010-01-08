@@ -1,8 +1,8 @@
 (ns fleetdb.client
   (:require [clj-json :as json])
   (:import (java.net Socket)
-           (java.io  OutputStreamWriter BufferedWriter
-                     InputStreamReader BufferedReader)
+           (java.io OutputStreamWriter BufferedWriter
+                    InputStreamReader BufferedReader)
            (clojure.lang IFn ILookup)))
 
 (defn- doquery [#^BufferedWriter writer #^BufferedReader reader q]
@@ -38,10 +38,3 @@
   (.close #^BufferedReader (:reader client))
   (.close #^BufferedWriter (:writer client))
   (.close #^Socket         (:socket client)))
-
-; (client/connect ...)
-; (client/query client ...)
-; (client/close client)
-; (lib/query-thing client ...)
-;   (client/query client ---)
-; (client/query-foo client ...)
