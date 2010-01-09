@@ -2,7 +2,8 @@
   (:require [clj-json :as json])
   (:import (java.net Socket)
            (java.io OutputStreamWriter BufferedWriter
-                    InputStreamReader BufferedReader)
+                    InputStreamReader BufferedReader
+                    Closeable)
            (clojure.lang IFn ILookup)))
 
 (defn- doquery [#^BufferedWriter writer #^BufferedReader reader q]
@@ -16,6 +17,14 @@
           result
           (throw (Exception. #^String result))))
       (throw (Exception. "No response from server.")))))
+
+(defn query [client q]
+  (doquery (:writer client) (:reader client) q))
+
+(defn close [client]
+  (.close #^BufferedReader (:reader client))
+  (.close #^BufferedWriter (:writer client))
+  (.close #^Socket         (:socket client)))
 
 (defn connect [& [options]]
   (let [host     (get options :host "127.0.0.1")
@@ -31,14 +40,7 @@
       (.setSoTimeout socket (int (* timeout 1000))))
     (when password
       (doquery writer reader ["auth" password]))
-    (proxy [IFn ILookup] []
+    (proxy [IFn ILookup Closeable] []
       (invoke [q] (doquery writer reader q))
-      (valAt  [k] (attrs k)))))
-
-(defn query [client q]
-  (doquery (:writer client) (:reader client) q))
-
-(defn close [client]
-  (.close #^BufferedReader (:reader client))
-  (.close #^BufferedWriter (:writer client))
-  (.close #^Socket         (:socket client)))
+      (valAt  [k] (attrs k))
+      (close  []  (close attrs)))))
