@@ -20,12 +20,15 @@
 (defn connect [& [options]]
   (let [host     (get options :host "127.0.0.1")
         port     (get options :port 3400)
+        timeout  (get options :timeout)
         password (get options :password)
         socket   (Socket. #^String host #^Integer port)
         writer   (BufferedWriter. (OutputStreamWriter. (.getOutputStream  socket)))
         reader   (BufferedReader. (InputStreamReader.  (.getInputStream   socket)))
         attrs    {:writer writer :reader reader :socket socket
-                  :host host :port port :password password}]
+                  :host host :port port :password password :timeout timeout}]
+    (when timeout
+      (.setSoTimeout socket (int (* timeout 1000))))
     (when password
       (doquery writer reader ["auth" password]))
     (proxy [IFn ILookup] []

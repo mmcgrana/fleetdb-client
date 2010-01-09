@@ -30,6 +30,15 @@
       (assert= r1 1)
       (assert= r2 [{"id" 1}]))))
 
+(deftest "timeout"
+  (assert-throws #"Read timed out"
+    (let [client (client/connect {:port 3402 :timeout 1})]
+      (client ["ping"]))))
+
+(deftest "missing server"
+  (assert-throws #"Connection refused"
+    (client/connect {:port 3403})))
+
 (deftest "auth success"
   (let [client (client/connect {:port 3401 :password "pass"})]
     (assert= "pong" (client ["ping"]))))
