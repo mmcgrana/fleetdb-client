@@ -6,15 +6,16 @@
            (clojure.lang IFn ILookup)))
 
 (defn- doquery [#^BufferedWriter writer #^BufferedReader reader q]
-  (.write writer #^String (json/generate-string q))
-    (.write writer "\r\n")
-    (.flush writer)
-    (if-let [in-line (.readLine reader)]
-      (let [[status result] (json/parse-string in-line)]
+  (let [#^String req (json/generate-string q)]
+    (if-let [resp (do (.write writer req)
+                      (.write writer "\r\n")
+                      (.flush writer)
+                      (.readLine reader))]
+      (let [[status result] (json/parse-string resp)]
         (if (zero? status)
           result
           (throw (Exception. #^String result))))
-      (throw (Exception. "No response from server."))))
+      (throw (Exception. "No response from server.")))))
 
 (defn connect [& [options]]
   (let [host     (get options :host "127.0.0.1")
