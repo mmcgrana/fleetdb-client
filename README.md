@@ -1,6 +1,6 @@
 # fleetdb-client
 
-A Clojure client library for FleetDB.
+A Clojure client library for [FleetDB](http://fleetdb.org).
 
 
 ## Installation
@@ -11,7 +11,7 @@ If you want to incorporate this client into a project managed by Maven or [Leini
 
 If you just want to get started right away with at the REPL:
 
-    $ wget http://github.com/mmcgrana/fleetdb-client/downloads/fleetdb-client-standalone.jar
+    $ wget http://s3.amazonaws.com/fleetdb-client/fleetdb-client-standalone.jar
     $ java -cp fleetdb-client-standalone.jar clojure.contrib.repl_ln
 
 ## Usage
