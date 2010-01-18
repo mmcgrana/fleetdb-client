@@ -4,7 +4,7 @@
            (java.io OutputStreamWriter BufferedWriter
                     InputStreamReader BufferedReader
                     Closeable)
-           (clojure.lang IFn ILookup)))
+           (clojure.lang IFn ILookup IObj)))
 
 (defn- doquery [#^BufferedWriter writer #^BufferedReader reader q]
   (let [#^String req (json/generate-string q)]
@@ -26,6 +26,14 @@
   (.close #^BufferedWriter (:writer client))
   (.close #^Socket         (:socket client)))
 
+(defn- proxy-client [{:keys [writer reader] :as attrs}]
+  (proxy [IFn ILookup IObj Closeable] []
+      (invoke    [q] (doquery writer reader q))
+      (valAt     [k] (attrs k))
+      (with-meta [m] (proxy-client (with-meta attrs m)))
+      (meta      []  (meta attrs))
+      (close     []  (close attrs))))
+
 (defn connect [& [options]]
   (let [host     (get options :host "127.0.0.1")
         port     (get options :port 3400)
@@ -40,7 +48,4 @@
       (.setSoTimeout socket (int (* timeout 1000))))
     (when password
       (doquery writer reader ["auth" password]))
-    (proxy [IFn ILookup Closeable] []
-      (invoke [q] (doquery writer reader q))
-      (valAt  [k] (attrs k))
-      (close  []  (close attrs)))))
+    (proxy-client attrs)))

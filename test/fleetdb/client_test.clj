@@ -59,3 +59,9 @@
 (deftest "client attrs"
   (with-client [client nil]
     (assert= 3400 (:port client))))
+
+(deftest "meta"
+  (with-client [client nil]
+    (let [meta-client (with-meta client {:type :foo})]
+      (assert= :foo (:type (meta client)))
+      (assert= "pong" (client ["ping"])))))
