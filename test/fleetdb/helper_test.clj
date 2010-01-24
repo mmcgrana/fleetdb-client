@@ -14,6 +14,14 @@
            (select :people
                    (limit 2)
                    (only [:id :name])))
+  (assert= [:select :people {:distinct true :only :name}]
+           (select :people
+                   (dbdistinct true)
+                   (only :name)))
+  (assert= [:select :people {:distinct true :only :name}]
+           (select :people
+                   (dbdistinct)   ; defaults to true
+                   (only :name)))
   (assert= [:select :people {:order [[:name "asc"] [:age "desc"]]}]
            (select :people
                    (order (asc :name) (desc :age))))

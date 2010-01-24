@@ -12,6 +12,10 @@
     {:only (first attr-names)}
     {:only (vec attr-names)}))
 
+(defn dbdistinct
+  ([] (dbdistinct true))
+  ([distinct?] {:distinct distinct?}))
+
 (defn asc [attr]
   [attr "asc"])
 
