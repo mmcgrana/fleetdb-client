@@ -1,4 +1,4 @@
-(defproject fleetdb-client "0.1.0"
+(defproject fleetdb-client "0.1.1-SNAPSHOT"
   :description "A Clojure client for FleetDB."
   :url "http://github.com/mmcgrana/fleetdb-client"
   :dependencies [[org.clojure/clojure "1.1.0"]
