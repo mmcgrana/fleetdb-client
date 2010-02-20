@@ -1,5 +1,5 @@
 (ns fleetdb.client
-  (:require [clj-json :as json])
+  (:require (clj-json [core :as json]))
   (:import (java.net Socket)
            (java.io OutputStreamWriter BufferedWriter
                     InputStreamReader BufferedReader
