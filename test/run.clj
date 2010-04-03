@@ -6,5 +6,4 @@
 (set! *warn-on-reflection* true)
 (require-and-run-tests
   'fleetdb.client-test
-  'fleetdb.helper-test
-  )
+  'fleetdb.helper-test)
