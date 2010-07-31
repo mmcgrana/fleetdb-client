@@ -9,11 +9,6 @@ First, download and start FleetDB as described in the [FleetDB getting started g
 
 If you want to incorporate this client into a project managed by Maven or [Leiningen](http://github.com/technomancy/leiningen), you can find the necessary Maven artifact information on the client's [Clojars project page](http://clojars.org/fleetdb-client).
 
-If you just want to get started right away with at the REPL:
-
-    $ wget http://fleetdb-client.s3.amazonaws.com/fleetdb-client-standalone.jar
-    $ java -cp fleetdb-client-standalone.jar clojure.contrib.repl_ln
-
 ## Usage
 
 Using the library is simple:
