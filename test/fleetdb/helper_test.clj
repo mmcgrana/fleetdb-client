@@ -2,8 +2,14 @@
   (:use [fleetdb helper]
         [clj-unit core]))
 
+(deftest "auth"
+  (assert= [:auth "foo"] (auth "foo")))
+
 (deftest "ping"
   (assert= [:ping] (ping)))
+
+(deftest "info"
+  (assert= [:info] (info)))
 
 (deftest "select"
   (assert= [:select :people]
@@ -46,6 +52,8 @@
            (where (>= :age 30)))
   (assert= {:where [:in :name ["Bob" "Amy"]]}
            (where (in :name ["Bob" "Amy"])))
+  (assert= {:where [:not-in :name ["Bob" "Amy"]]}
+           (where (not-in :name ["Bob" "Amy"])))
   (assert= {:where [:>< :age [30 40]]}
            (where (>< :age [30 40])))
   (assert= {:where [:>=< :age [30 40]]}
@@ -86,6 +94,10 @@
   (assert= [:delete :people {:where [:= :name "Bob"]}]
            (delete :people (where (= :name "Bob")))))
 
+(deftest "drop-collection"
+  (assert= [:drop-collection :people]
+           (drop-collection :people)))
+
 (deftest "create-index"
   (assert= [:create-index :people :name]
            (create-index :people :name))
@@ -123,6 +135,9 @@
              (dbcount :registrations (where (= :person-id 2)))
              6
              (insert :registrations {:id 13 :person-id 2 :event-id 4}))))
+
+(deftest "clear"
+  (assert= [:clear] (clear)))
 
 (deftest "explain"
   (assert= [:explain [:select :people]]

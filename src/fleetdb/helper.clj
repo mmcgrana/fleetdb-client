@@ -1,6 +1,7 @@
 (ns fleetdb.helper)
 
-;; find-options
+;; find options
+
 (defn offset [n]
   {:offset n})
 
@@ -27,15 +28,14 @@
     {:order (first attrs)}
     {:order (vec attrs)}))
 
-
 (defn where-criteria [[c & args]]
- (let [c (keyword c)]
-   (condp contains? c
-      #{:and :or}
-          (vec (cons c (map where-criteria args)))
-      #{:= :!= :< :<= :> :>= :in :>< :><= :>=< :>=<=}
-          (vec (cons c args))
-      (throw (Exception. (str "Unknown where criteria '" c "'"))))))
+  (let [c (keyword c)]
+    (condp contains? c
+       #{:and :or}
+           (vec (cons c (map where-criteria args)))
+       #{:= :!= :< :<= :> :>= :in :not-in :>< :><= :>=< :>=<=}
+           (vec (cons c args))
+       (throw (Exception. (str "Unknown where criteria '" c "'"))))))
 
 (defmacro where [criteria]
   (let [c (where-criteria criteria)]
@@ -44,10 +44,16 @@
 (defn join-options [options]
   (into {} options))
 
-;; Queries
+;; queries
+
+(defn auth [password]
+  [:auth password])
 
 (defn ping []
   [:ping])
+
+(defn info []
+  [:info])
 
 (defn select
   ([collection]
@@ -78,6 +84,9 @@
   ([collection & find-options]
       [:delete collection (join-options find-options)]))
 
+(defn drop-collection [collection]
+  [:drop-collection collection])
+
 (defn create-index [collection index-spec]
   [:create-index collection index-spec])
 
@@ -93,6 +102,9 @@
 (defn checked-write [read-query expected-read-result write-query]
   [:checked-write read-query expected-read-result write-query])
 
+(defn clear []
+  [:clear])
+
 (defn explain [query]
   [:explain query])
 
@@ -104,4 +116,3 @@
 
 (defn compact []
   [:compact])
-
