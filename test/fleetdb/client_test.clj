@@ -18,6 +18,10 @@
   (with-client [client nil]
     (assert= "pong" (client ["ping"]))))
 
+(deftest "url options"
+  (with-client [client {:url "fleetdb://:pass@localhost:3401"}]
+    (assert= "pong" (client "ping"))))
+
 (deftest "malformed query"
   (with-client [client nil]
     (assert-throws #"Malformed query"
