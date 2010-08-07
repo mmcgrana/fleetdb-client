@@ -1,7 +1,7 @@
 (ns fleetdb.client-test
-  (:require (fleetdb [client :as client]))
-  (:import (java.io Closeable))
-  (:use (clj-unit core)))
+  (:use clj-unit.core)
+  (:require [fleetdb.client :as client])
+  (:import java.io.Closeable))
 
 (defmacro with-client [[name opts] & body]
   (let [tname (with-meta name {:tag 'Closeable})]

@@ -1,10 +1,10 @@
 (ns fleetdb.client
-  (:require (clj-json [core :as json]))
-  (:import (java.net Socket URI)
-           (java.io OutputStreamWriter BufferedWriter
+  (:require [clj-json.core :as json])
+  (:import (java.net Socket URI))
+  (:import (java.io OutputStreamWriter BufferedWriter
                     InputStreamReader BufferedReader
-                    Closeable)
-           (clojure.lang IFn ILookup)))
+                    Closeable))
+  (:import (clojure.lang IFn ILookup)))
 
 (defn- doquery [#^BufferedWriter writer #^BufferedReader reader q]
   (let [#^String req (json/generate-string q)]

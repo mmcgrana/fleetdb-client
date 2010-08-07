@@ -1,6 +1,6 @@
 (ns fleetdb.helper-test
-  (:use [fleetdb helper]
-        [clj-unit core]))
+  (:use clj-unit.core)
+  (:use fleetdb.helper))
 
 (deftest "auth"
   (assert= [:auth "foo"] (auth "foo")))
